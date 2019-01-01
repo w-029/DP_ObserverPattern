@@ -13,18 +13,24 @@ public class WeatherData extends Observable {
     public WeatherData() {}
 
     public void measurementsChanged() {
+
         /* 调用notifyObservers()之前，要先调用setChanged()
          * 表示指示状态已经改变 */
         setChanged();
+
+        /* 没有参数的notifyObservers()会调用Observer接口的update(...),
+         * Observer接口的实现者需要在update(...)中使用getter()方法来
+         * 主动拉取更新数据 */
         notifyObservers();
+
+        /* 另有notifyObservers(Object arg)会像经典观察者模式那样
+         * 去推送给观察者更新的数据 */
     }
 
     public void setMeasurements(float temperature, float humidity, float pressure) {
         this.temperature = temperature;
         this.humidity = humidity;
         this.pressure = pressure;
-        /* ？？：既然观察者是主动“拉取”数据，
-         * 这里为何还要去“推送”？？ */
         measurementsChanged();
     }
 
